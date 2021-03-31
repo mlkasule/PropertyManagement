@@ -1,7 +1,7 @@
 /**
  * This class represents the plot object
  * 
- * @author casul
+ * @author Mark
  *
  */
 public class Plot {
@@ -86,11 +86,11 @@ public class Plot {
 
 		// make copy of original object to compare with passed object p
 		Plot house = new Plot();
-		
+
 		boolean location;
-		
-		//should ise methods or direct x, y?
-		if (house.x == p.x || house.y == p.y) {
+
+		// should ise methods or direct x, y?
+		if (house.getX() == p.getX() || house.getY() == p.getY()) {
 			location = true;
 		} else {
 			location = false;
@@ -99,7 +99,19 @@ public class Plot {
 	}
 
 	public boolean encompasses(Plot plot) {
+
+		Plot houseObj = new Plot();
+		boolean neighbor;
+
 		// add widith to the x and widht position to get edge?
+
+		if ((houseObj.getX() + width) == plot.getX() || (houseObj.getY() + width == plot.getY())) {
+			neighbor = true;
+		} else {
+			neighbor = false;
+		}
+
+		return neighbor;
 	}
 
 	public String toString() {

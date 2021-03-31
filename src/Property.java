@@ -1,3 +1,5 @@
+import javafx.scene.layout.Region;
+
 /**
  * This class represents the property object
  * 
@@ -20,7 +22,7 @@ public class Property {
 		city = "";
 		owner = "";
 		rentAmount = 0;
-		this.plot = new Plot(plot); // default plot
+		this.plot = new Plot(0, 0, 1, 1); // default plot
 	}
 
 	/**
@@ -32,7 +34,8 @@ public class Property {
 	 * @param owner
 	 * @param plot
 	 */
-	public Property(String propertyName, String city, double rentAmount, String owner, int x, int y, int width, int depth) {
+	public Property(String propertyName, String city, double rentAmount, String owner, int x, int y, int width,
+			int depth) {
 		this.propertyName = propertyName;
 		this.city = city;
 		this.owner = owner;
@@ -146,6 +149,15 @@ public class Property {
 	}
 
 	/**
+	 * 
+	 * @return a plot copy
+	 */
+	public Plot getPlot() {
+		// TODO Auto-generated method stub
+		return new Plot(plot);
+	}
+
+	/**
 	 * @return str string to display property details.
 	 */
 	public String toString() {
@@ -153,4 +165,5 @@ public class Property {
 				+ "\n" + "Rent Amount: " + rentAmount + " ";
 		return str;
 	}
+
 }
