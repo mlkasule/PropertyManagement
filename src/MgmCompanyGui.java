@@ -335,28 +335,28 @@ public class MgmCompanyGui extends Application {
 
 		// create property text fields and set them to read only at the begining
 		propNametxt = new TextField();
-		propNametxt.setEditable(false);
+		propNametxt.setEditable(true);
 		propNametxt.setMaxWidth(100);
 		propCitytxt = new TextField();
-		propCitytxt.setEditable(false);
+		propCitytxt.setEditable(true);
 		propCitytxt.setMaxWidth(80);
 		propRenttxt = new TextField();
-		propRenttxt.setEditable(false);
+		propRenttxt.setEditable(true);
 		propRenttxt.setMaxWidth(80);
 		propOwnertxt = new TextField();
-		propOwnertxt.setEditable(false);
+		propOwnertxt.setEditable(true);
 		propOwnertxt.setMaxWidth(100);
 		propXtxt = new TextField();
-		propXtxt.setEditable(false);
+		propXtxt.setEditable(true);
 		propXtxt.setMaxWidth(100);
 		propYtxt = new TextField();
-		propYtxt.setEditable(false);
+		propYtxt.setEditable(true);
 		propYtxt.setMaxWidth(100);
 		propWidthtxt = new TextField();
-		propWidthtxt.setEditable(false);
+		propWidthtxt.setEditable(true);
 		propWidthtxt.setMaxWidth(100);
 		propDepthtxt = new TextField();
-		propDepthtxt.setEditable(false);
+		propDepthtxt.setEditable(true);
 		propDepthtxt.setMaxWidth(100);
 
 		// Create buttons
@@ -425,7 +425,7 @@ public class MgmCompanyGui extends Application {
 		buttonPane2.getChildren().addAll(totalRentBtn, propListBtn, exitBtn);
 		mainPane.getChildren().addAll(mgmTitlePane, propertyTitlePane, buttonPane1, buttonPane2);
 
-		Scene scene = new Scene(mainPane, 450, 0);
+		Scene scene = new Scene(mainPane, 450, 450);
 		stage.setScene(scene);
 
 		// Set stage title and show the stage.
