@@ -2,8 +2,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import javax.swing.JOptionPane;
-
 //import MvGuiFx.ButtonEventHandler;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -87,6 +85,13 @@ public class MgmCompanyGui extends Application {
 		return false;
 	}
 
+	private boolean mgmPlotFieldsEmpty() {
+		if (mgmXtxt.getText().equals("") || mgmYtxt.getText().equals("") || mgmWidthtxt.getText().equals("")
+				|| mgmDepthtxt.getText().equals(""))
+			return true;
+		return false;
+	}
+
 	/**
 	 * Creates a ManagementCompany object using information from the GUI and sets
 	 * the text fields to
@@ -101,48 +106,61 @@ public class MgmCompanyGui extends Application {
 				alert.setContentText("Fee is not valid, Correct value is between 0-100");
 				alert.showAndWait();
 			} else {
-				if (true) {// mgmPlotFieldsEmpty()) {
+				if (mgmPlotFieldsEmpty()) {
 					// Create management company object with default Plot
 					mgmCompany = new ManagementCompany(mgmNametxt.getText(), mgmIdtxt.getText(),
-							Double.parseDouble(mgmFeetxt.getText()), nextPix, nextPix, nextPix, nextPix);
-					// Enable Property buttons
-					newMgmBtn.setDisable(true);
-					addPropertyBtn.setDisable(false);
-					maxRentBtn.setDisable(false);
-					totalRentBtn.setDisable(false);
-					propListBtn.setDisable(false);
-					// set Management text fields to read only
-					mgmNametxt.setEditable(false);
-					mgmIdtxt.setEditable(false);
-					mgmFeetxt.setEditable(false);
-					newMgmBtn.setDisable(true);
-					// set property text fields to editable
-					propNametxt.setEditable(true);
-					propCitytxt.setEditable(true);
-					propRenttxt.setEditable(true);
-					propOwnertxt.setEditable(true);
-					propXtxt.setEditable(true);
-					propYtxt.setEditable(true);
-					propWidthtxt.setEditable(true);
-					propDepthtxt.setEditable(true);
-
-					// set up Plot window for Mgmt Company
-					stage2 = new Stage();
-					sceneWidth = Math.min(400, mgmCompany.getPlot().getWidth() * SCALE_FACTOR);
-					sceneDepth = Math.min(400, mgmCompany.getPlot().getDepth() * SCALE_FACTOR);
-
-					mgmtRectangle = new Rectangle(0, 0, sceneWidth, sceneDepth);
-					mgmtRectangle.setFill(Color.TRANSPARENT);
-					mgmtRectangle.setStroke(Color.RED);
-					mgmtRectangle.setStrokeWidth(2);
-					plotFrame.getChildren().addAll(mgmtRectangle);
-					stage2.setScene(new Scene(plotFrame, sceneWidth, sceneDepth));
-					stage2.setX(10);
-					stage2.setY(10);
-					// Set stage title and show the stage.
-					stage2.setTitle(mgmCompany.getName() + " plot. Property plots must fit inside this.");
-					stage2.show();
+							Double.parseDouble(mgmFeetxt.getText()));
+					System.out.println("Mgmt Co plot fields are empty - using default");
+				} else {
+					try {
+						mgmCompany = new ManagementCompany(mgmNametxt.getText(), mgmIdtxt.getText(),
+								Double.parseDouble(mgmFeetxt.getText()), Integer.parseInt(mgmXtxt.getText()),
+								Integer.parseInt(mgmYtxt.getText()), Integer.parseInt(mgmWidthtxt.getText()),
+								Integer.parseInt(mgmDepthtxt.getText()));
+					} catch (NumberFormatException e) {
+						System.out.println("NumberFormatException" + e.getMessage());
+						// Create management company object with default Plot and default fee
+						mgmCompany = new ManagementCompany(mgmNametxt.getText(), mgmIdtxt.getText(),
+								Double.parseDouble("10.0"));
+					}
 				}
+				// Enable Property buttons
+				newMgmBtn.setDisable(true);
+				addPropertyBtn.setDisable(false);
+				maxRentBtn.setDisable(false);
+				totalRentBtn.setDisable(false);
+				propListBtn.setDisable(false);
+				// set Management text fields to read only
+				mgmNametxt.setEditable(false);
+				mgmIdtxt.setEditable(false);
+				mgmFeetxt.setEditable(false);
+				newMgmBtn.setDisable(true);
+				// set property text fields to editable
+				propNametxt.setEditable(true);
+				propCitytxt.setEditable(true);
+				propRenttxt.setEditable(true);
+				propOwnertxt.setEditable(true);
+				propXtxt.setEditable(true);
+				propYtxt.setEditable(true);
+				propWidthtxt.setEditable(true);
+				propDepthtxt.setEditable(true);
+
+				// set up Plot window for Mgmt Company
+				stage2 = new Stage();
+				sceneWidth = Math.min(400, mgmCompany.getPlot().getWidth() * SCALE_FACTOR);
+				sceneDepth = Math.min(400, mgmCompany.getPlot().getDepth() * SCALE_FACTOR);
+
+				mgmtRectangle = new Rectangle(0, 0, sceneWidth, sceneDepth);
+				mgmtRectangle.setFill(Color.TRANSPARENT);
+				mgmtRectangle.setStroke(Color.RED);
+				mgmtRectangle.setStrokeWidth(2);
+				plotFrame.getChildren().addAll(mgmtRectangle);
+				stage2.setScene(new Scene(plotFrame, sceneWidth, sceneDepth));
+				stage2.setX(10);
+				stage2.setY(10);
+				// Set stage title and show the stage.
+				stage2.setTitle(mgmCompany.getName() + " plot. Property plots must fit inside this.");
+				stage2.show();
 
 			}
 		}
@@ -178,7 +196,9 @@ public class MgmCompanyGui extends Application {
 							propOwnertxt.getText());
 				}
 			}
-			int rtnValue = mgmCompany.addProperty(p);
+			Plot plot = p.getPlot();
+			int rtnValue = mgmCompany.addProperty(p.getPropertyName(), p.getCity(), p.getRentAmount(), p.getOwner(),
+					plot.getX(), plot.getY(), plot.getWidth(), plot.getDepth());
 			// draw proposed plot rectangle
 			int rectW = Math.min(400, p.getPlot().getWidth() * SCALE_FACTOR);
 			int rectD = Math.min(400, p.getPlot().getDepth() * SCALE_FACTOR);
@@ -267,20 +287,13 @@ public class MgmCompanyGui extends Application {
 				addProp();
 
 			} else if (e.getSource() == maxRentBtn) {
-
-				JOptionPane.showMessageDialog(null,
-						mgmCompany.displayPropertyAtIndex(mgmCompany.maxPropertyRentIndex()));
-
-				alert.setContentText(mgmCompany.displayPropertyAtIndex(mgmCompany.maxPropertyRentIndex()));
-				alert.setContentText(Double.toString(mgmCompany.maxRentProp()));
+				alert.setContentText(mgmCompany.maxPropertyRent());
 				alert.showAndWait();
-			} else if (e.getSource() == totalRentBtn) {
+			}
 
-				// JOptionPane.showMessageDialog(null,"Total Rent of the properties:
-				// "+mgmCompany.totalRent());
+			else if (e.getSource() == totalRentBtn) {
 				alert.setContentText("Total Rent of the properties: " + mgmCompany.totalRent());
 				alert.showAndWait();
-
 			}
 
 			else if (e.getSource() == propListBtn) {
@@ -317,6 +330,10 @@ public class MgmCompanyGui extends Application {
 		mgmIdtxt.setMaxWidth(80);
 		mgmFeetxt = new TextField();
 		mgmFeetxt.setMaxWidth(40);
+		mgmXtxt = new TextField();
+		mgmXtxt.setMaxWidth(40);
+		mgmYtxt = new TextField();
+		mgmYtxt.setMaxWidth(40);
 		mgmWidthtxt = new TextField();
 		mgmWidthtxt.setMaxWidth(40);
 		mgmDepthtxt = new TextField();
@@ -335,28 +352,28 @@ public class MgmCompanyGui extends Application {
 
 		// create property text fields and set them to read only at the begining
 		propNametxt = new TextField();
-		propNametxt.setEditable(true);
+		propNametxt.setEditable(false);
 		propNametxt.setMaxWidth(100);
 		propCitytxt = new TextField();
-		propCitytxt.setEditable(true);
+		propCitytxt.setEditable(false);
 		propCitytxt.setMaxWidth(80);
 		propRenttxt = new TextField();
-		propRenttxt.setEditable(true);
+		propRenttxt.setEditable(false);
 		propRenttxt.setMaxWidth(80);
 		propOwnertxt = new TextField();
-		propOwnertxt.setEditable(true);
+		propOwnertxt.setEditable(false);
 		propOwnertxt.setMaxWidth(100);
 		propXtxt = new TextField();
-		propXtxt.setEditable(true);
+		propXtxt.setEditable(false);
 		propXtxt.setMaxWidth(100);
 		propYtxt = new TextField();
-		propYtxt.setEditable(true);
+		propYtxt.setEditable(false);
 		propYtxt.setMaxWidth(100);
 		propWidthtxt = new TextField();
-		propWidthtxt.setEditable(true);
+		propWidthtxt.setEditable(false);
 		propWidthtxt.setMaxWidth(100);
 		propDepthtxt = new TextField();
-		propDepthtxt.setEditable(true);
+		propDepthtxt.setEditable(false);
 		propDepthtxt.setMaxWidth(100);
 
 		// Create buttons
@@ -390,7 +407,9 @@ public class MgmCompanyGui extends Application {
 
 		// Add management company info to the pane
 		mgmInfoPane.getChildren().addAll(mgmNamelbl, mgmNametxt, mgmIdlbl, mgmIdtxt, mgmFeelbl, mgmFeetxt);
-		mgmPane.getChildren().addAll(mgmInfoPane);
+		mgmPlotPane.getChildren().addAll(mgmPlotlbl, mgmXlbl, mgmXtxt, mgmYlbl, mgmYtxt, mgmWidthlbl, mgmWidthtxt,
+				mgmDepthlbl, mgmDepthtxt);
+		mgmPane.getChildren().addAll(mgmInfoPane, mgmPlotPane);
 
 		TitledPane mgmTitlePane = new TitledPane("Management Company", mgmPane);
 		mgmTitlePane.setCollapsible(false);
