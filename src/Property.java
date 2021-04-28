@@ -1,5 +1,3 @@
-import javafx.scene.layout.Region;
-
 /**
  * This class represents the property object
  * 
@@ -153,7 +151,6 @@ public class Property {
 	 * @return a plot copy
 	 */
 	public Plot getPlot() {
-		// TODO Auto-generated method stub
 		return new Plot(plot);
 	}
 

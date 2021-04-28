@@ -40,14 +40,23 @@ public class ManagementCompany {
 	}
 
 	public int addProperty(Property property) {
+		
+		//get location of property
+		//loop through property asrray to check if overlap then return -4
+		//if propertty full = 5. return -1
+		/*
+		 * if prop = null return - 2
+		 * if property not empcompass witihin depth and width return -3 (witihin or out)
+		 * 
+		 * if check overlaps return -4 
+		 * 
+		 * otherwise if all is good, create new prop and add into array, 5th prop
+		 */
 		if (property == null) {
 			return -2;
 		}
 
 		if (!plot.encompasses(property.getPlot())) {
-			// System.out.println(plot.getWidth() + " " + plot.getDepth());
-			// System.out.println(property.getPlot().getWidth() + " " +
-			// property.getPlot().getDepth());
 			return -3;
 		}
 
@@ -76,7 +85,7 @@ public class ManagementCompany {
 	public double totalRent() {
 		double total = 0;
 		for (int i = 0; i < properties.length; i++) {
-			if (properties[i] == null) {
+			if (/*properties[i] == null*/) {
 				break;
 			}
 			total += properties[i].getRentAmount();
@@ -85,6 +94,8 @@ public class ManagementCompany {
 	}
 
 	int maxPropertyRentIndex() {
+		
+		//add max
 		int index = -1;
 		double max = 0;
 		for (int i = 0; i < properties.length; i++) {
@@ -130,6 +141,8 @@ public class ManagementCompany {
 	 * @return the MAX_PROPERTY
 	 */
 	public int getMAX_PROPERTY() {
+		
+		//add max prop
 		return MAX_PROPERTY;
 	}
 
@@ -140,6 +153,5 @@ public class ManagementCompany {
 	public String getName() {
 		return name;
 	}
-
 
 }

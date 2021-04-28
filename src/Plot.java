@@ -89,7 +89,7 @@ public class Plot {
 
 		boolean location;
 
-		// should ise methods or direct x, y?
+		// should use methods or direct x, y?
 		if (house.getX() == p.getX() || house.getY() == p.getY()) {
 			location = true;
 		} else {
